@@ -1,0 +1,21 @@
+.clear {
+    overflow: hidden;
+}
+
+.one-info-timeline, .many-info-timeline {
+    float: left;
+    width: 70%;
+}
+
+.many-info-timeline {
+    margin: 5px 0px;
+}
+
+.one-operations-timeline, .many-operations-timeline {
+    margin-left: 70%;
+    padding-left: 10px;
+}
+
+.one-operations-timeline span, .many-operations-timeline span {
+    cursor: pointer;
+}

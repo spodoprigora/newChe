@@ -1,0 +1,8 @@
+User-agent: Yandex
+Allow: /rss
+
+
+User-agent: *
+Disallow:
+Disallow: /backend/
+Sitemap: /sitemap.xml

@@ -1,0 +1,68 @@
+<?php
+    use yii\bootstrap\Html;
+use yii\helpers\StringHelper;
+
+$count = 0;
+
+    $language ='ua';
+    $session = Yii::$app->session;
+    $session->open();
+    if ($session->has('lang') && $session['lang'] == 'ru' ){
+        $language ='ru';
+    }
+?>
+
+<section class="current-program-wrap">
+    <?php if($language =='ru'):?>
+        <h1>Актуальные программы</h1>
+    <?php else:?>
+        <h1>Актуальні програми</h1>
+    <?php endif;?>
+    <div class="current-program-slider clear" id="current-program-h" >
+        <?php foreach ($news as $item):?>
+            <?php if($count == 0):?>
+                <div class="item">
+            <?php endif;?>
+            <div class="preview">
+                <?php if($item['type'] == 'text'): ?>
+                    <?php if(!empty($item['preview'])):?>
+                        <img src="<?=$item['preview']['preview_url'];?>" alt="<?=$item['preview']['preview_alt_'. $language];?>" title="<?=$item['preview']['preview_title_'. $language];?>">
+                    <?php endif; ?>
+                    <?= Html::a('<h5>' .StringHelper::truncate($item['short_description_'. $language], 80).'</h5>', ['/news/news/item',  'id'=>$item['id']])?>
+                    <span class="time"><?=$item['date_news']?></span>
+                <?php else: ?>
+                    <?php if(array_key_exists("type", $item['video'])):?>
+                        <?php if($item['video']['type'] == 'youtube'):?>
+                            <figure class="video play-in-modal" data-id="<?=$item['id']?>">
+                                <img src="<?= $item['video']['youtube_preview']; ?>">
+                                <span class="play-icon"></span>
+                            </figure>
+                            <?= Html::a('<h5>' .StringHelper::truncate($item['short_description_'. $language], 80).'</h5>', ['/news/news/item',  'id'=>$item['id']])?>
+                            <span class="time"><?=$item['date_news']?></span>
+                        <?php else: ?>
+                            <figure class="video play-in-modal" data-id="<?=$item['id']?>">
+                                <video poster="">
+                                    <source src="<?= $item['video']['video']; ?>" type="video/mp4"></source>
+                                </video>
+                            </figure>
+                            <?= Html::a('<h5>' .StringHelper::truncate($item['short_description_'. $language], 80).'</h5>', ['/news/news/item',  'id'=>$item['id']])?>
+                            <span class="time"><?=$item['date_news']?></span>
+                        <?php endif;?>
+                    <?php endif;?>
+                <?php endif;?>
+            </div> <!-- end preview -->
+            <?php $count++?>
+            <?php if($count == 2) $count = 0; ?>
+            <?php if($count == 0):?>
+                </div>
+            <?php endif;?><!-- end item -->
+        <?php endforeach;?>
+        <?php if($count == 1):?>
+            </div>
+        <?php endif;?><!-- end item -->
+    </div>
+  <!-- end current-program-slide -->
+    <!--<div class="see-more">
+        <a href="" class="see-more-link">Показать еще</a>
+    </div>--><!-- end see-more-->
+</section>
